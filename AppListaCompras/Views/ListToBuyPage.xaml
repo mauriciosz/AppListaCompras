@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:AppListaCompras.ViewModels"
+             xmlns:components="clr-namespace:AppListaCompras.Libraries.Components"
              x:Class="AppListaCompras.Views.ListToBuyPage"
              Title="ListToBuyPage">
     <ContentPage.BindingContext>
@@ -22,11 +23,16 @@
         <CollectionView 
             Grid.Row="1" 
             ItemsSource="{Binding ListToBuy}">
+            <CollectionView.Header>
+                <components:HorizontalLine
+                            Stroke="Grey"
+                            Grid.ColumnSpan="3"/>
+            </CollectionView.Header>
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Grid
-                        ColumnDefinitions="90, *, 70"
-                        RowDefinitions="Auto, 30">
+                        ColumnDefinitions="90, *, 80"
+                        RowDefinitions="Auto, 1, 30, 1">
                         <Image 
                             Source="my_list.png"
                             Margin="15, 10, 0, 10"/>
@@ -35,32 +41,45 @@
                             Margin="10, 0, 0, 0"
                             VerticalOptions="Center">
                             <Label
-                                Text="{Binding Name}"/>
+                                Text="{Binding Name}"
+                                Style="{StaticResource Paragraph}"/>
                             <HorizontalStackLayout>
                                 <Label
-                                    Text="{Binding Products.Count}"/>
+                                    Text="{Binding Products.Count}"
+                                    Style="{StaticResource SmallText}"/>
                                 <Label
-                                    Text=" itens - " />
+                                    Text=" itens - " 
+                                    Style="{StaticResource SmallText}"/>
                                 <Label
-                                    Text="{Binding Users.Count}" />
+                                    Text="{Binding Users.Count}"
+                                    Style="{StaticResource SmallTextEmphasis}"/>
                             </HorizontalStackLayout>
                         </VerticalStackLayout>
                         <Label
                             Text="R$ 55,00"
                             Grid.Column="2"
                             VerticalOptions="Center"/>
-                        <HorizontalStackLayout 
+                        <components:HorizontalLine                            
+                            Stroke="LightGrey"
                             Grid.Row="1"
-                            Grid.ColumnSpan="3">
+                            Grid.ColumnSpan="3"/>
+                        <HorizontalStackLayout 
+                            Grid.Row="2"
+                            Grid.ColumnSpan="3"
+                            BackgroundColor="AliceBlue">
                             <Button
                                 ImageSource="share.png"
-                                Text="Compartilhar"/>
+                                Text="Compartilhar"
+                                Style="{StaticResource ButtonBorderless}"/>
                             <Button
                                 ImageSource="delete.png"
-                                Text="Excluir"/>
-                            
-
+                                Text="Excluir"
+                                Style="{StaticResource ButtonBorderless}"/>
                         </HorizontalStackLayout>
+                        <components:HorizontalLine
+                            Stroke="Grey"
+                            Grid.Row="3"
+                            Grid.ColumnSpan="3"/>
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
