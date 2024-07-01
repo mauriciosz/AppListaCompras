@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:AppListaCompras.ViewModels"
+             x:Class="AppListaCompras.Views.ListToBuyPage"
+             Title="ListToBuyPage">
+    <ContentPage.BindingContext>
+        <vm:ListToBuyViewModel/>
+    </ContentPage.BindingContext>
+    <Grid
+        RowDefinitions="75, *">
+
+        <StackLayout Padding="10" Orientation="Horizontal">
+            <ImageButton 
+                Source="back.png" 
+                HeightRequest="37" />
+            <Entry 
+                Placeholder="Pesquisar" 
+                HorizontalOptions="FillAndExpand" 
+                Margin="15, 0, 0, 0" />
+        </StackLayout>
+        <CollectionView 
+            Grid.Row="1" 
+            ItemsSource="{Binding ListToBuy}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid
+                        ColumnDefinitions="90, *, 70"
+                        RowDefinitions="Auto, 30">
+                        <Image 
+                            Source="my_list.png"
+                            Margin="15, 10, 0, 10"/>
+                        <VerticalStackLayout
+                            Grid.Column="1"
+                            Margin="10, 0, 0, 0"
+                            VerticalOptions="Center">
+                            <Label
+                                Text="{Binding Name}"/>
+                            <HorizontalStackLayout>
+                                <Label
+                                    Text="{Binding Products.Count}"/>
+                                <Label
+                                    Text=" itens - " />
+                                <Label
+                                    Text="{Binding Users.Count}" />
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                        <Label
+                            Text="R$ 55,00"
+                            Grid.Column="2"
+                            VerticalOptions="Center"/>
+                        <HorizontalStackLayout 
+                            Grid.Row="1"
+                            Grid.ColumnSpan="3">
+                            <Button
+                                ImageSource="share.png"
+                                Text="Compartilhar"/>
+                            <Button
+                                ImageSource="delete.png"
+                                Text="Excluir"/>
+                            
+
+                        </HorizontalStackLayout>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            <CollectionView.EmptyView>
+                <Label 
+                    Text="Nenhum registro encontrado!" />
+            </CollectionView.EmptyView>
+        </CollectionView>
+        <Button            
+            Text="+" 
+            Margin="20"
+            VerticalOptions="End"
+            HorizontalOptions="End"
+            Grid.Row="1"/>
+    </Grid>
+</ContentPage>
