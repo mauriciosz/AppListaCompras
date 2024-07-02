@@ -56,9 +56,9 @@ namespace AppListaCompras.ViewModels
         }
 
         [RelayCommand]
-        private void OpenPopupSharePage()
+        private void OpenPopupSharePage(ListToBuy listSelected)
         {
-            MopupService.Instance.PushAsync(new ListToBuySharePage());
+            MopupService.Instance.PushAsync(new ListToBuySharePage(listSelected));
         }
 
     }

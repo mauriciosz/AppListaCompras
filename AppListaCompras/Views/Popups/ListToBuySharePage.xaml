@@ -5,8 +5,10 @@
             x:Class="AppListaCompras.Views.Popups.ListToBuySharePage"
             xmlns:mopups="clr-namespace:Mopups.Pages;assembly=Mopups"
             xmlns:vm="clr-namespace:AppListaCompras.ViewModels.Popups"
+            xmlns:components="clr-namespace:AppListaCompras.Libraries.Components"
             Title="ListToBuySharePage"
-            BackgroundColor="#AA000000" >
+            BackgroundColor="#AA000000" 
+            CloseWhenBackgroundIsClicked="False">
     <!-- Sinceramente não compreendi muito bem isso aqui.. -->
     <!-- Vi que precisa disso para usar como comando no button para fechar a tela, mas... ainda um pouco perdido -->
     <mopups:PopupPage.BindingContext>
@@ -20,18 +22,35 @@
         StrokeShape="RoundRectangle 12"
         StrokeThickness="0">
         <VerticalStackLayout Spacing="10">
-            <Label 
-                Text="Compartilhar!"
-                VerticalOptions="Center" 
-                HorizontalOptions="Center" />
-            <Button
-                Text="X"
-                HorizontalOptions="End"
-                Command="{Binding CloseCommand}"/>
+            <StackLayout Orientation="Horizontal">
+                <Label 
+                    Text="Compartilhar!"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="CenterAndExpand" />
+                <ImageButton
+                    Source="close.png"
+                    HorizontalOptions="End"
+                    Command="{Binding CloseCommand}"/>
+            </StackLayout>
             <Entry 
                 Placeholder="E-mail"/>
             <Button
                 Text="Adicionar"/>
+            <CollectionView ItemsSource="{Binding List.Users}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <VerticalStackLayout>
+                            <components:HorizontalLine Stroke="Black" />
+                            <Label 
+                                Text="{Binding Name}"
+                                Style="{StaticResource Paragraph}"/>
+                            <Label 
+                                Text="{Binding Email}"
+                                Style="{StaticResource SmallText}" />
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </VerticalStackLayout>
     </Border>
 </mopups:PopupPage>
