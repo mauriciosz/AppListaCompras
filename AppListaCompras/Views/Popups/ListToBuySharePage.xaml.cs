@@ -1,4 +1,6 @@
 using AppListaCompras.Models;
+using AppListaCompras.ViewModels.Popups;
+
 //using AppListaCompras.ViewModels.Popups;
 using Mopups.Pages;
 
@@ -10,4 +12,5 @@ public partial class ListToBuySharePage : PopupPage
 	{
 		InitializeComponent();
 	}
+
 }

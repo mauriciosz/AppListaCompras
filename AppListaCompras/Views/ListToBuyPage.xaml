@@ -80,7 +80,8 @@
                                 ImageSource="share.png"
                                 Text="Compartilhar"
                                 Style="{StaticResource ButtonBorderless}"
-                                Command="{Binding OpenPopupSharePageCommand, Source={x:Reference vm}}" />
+                                Command="{Binding OpenPopupSharePageCommand, Source={x:Reference vm}}" 
+                                CommandParameter="{Binding .}"/>
                             <Button
                                 ImageSource="delete.png"
                                 Text="Excluir"
