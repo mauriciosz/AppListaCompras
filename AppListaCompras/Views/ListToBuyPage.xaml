@@ -3,10 +3,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:AppListaCompras.ViewModels"
              xmlns:components="clr-namespace:AppListaCompras.Libraries.Components"
+             xmlns:converters="clr-namespace:AppListaCompras.Libraries.Converters"
              x:Class="AppListaCompras.Views.ListToBuyPage"
              Title="ListToBuyPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:TextSharedListConverter x:Key="TextSharedListConverter" />
+            <converters:TextTotalPriceItensInCarConverter x:Key="TextTotalPriceItensInCarConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.BindingContext>
-        <vm:ListToBuyViewModel/>
+        <vm:ListToBuyViewModel x:Name="vm"/>
     </ContentPage.BindingContext>
     <Grid
         RowDefinitions="75, *">
@@ -48,15 +55,17 @@
                                     Text="{Binding Products.Count}"
                                     Style="{StaticResource SmallText}"/>
                                 <Label
-                                    Text=" itens - " 
+                                    Text=" itens " 
                                     Style="{StaticResource SmallText}"/>
                                 <Label
-                                    Text="{Binding Users.Count}"
+                                    Text="{Binding Users.Count, Converter={StaticResource TextSharedListConverter}}"
+                                    
                                     Style="{StaticResource SmallTextEmphasis}"/>
                             </HorizontalStackLayout>
                         </VerticalStackLayout>
+                        <!-- O 'Binding .' passa a lista toda para o item e o Converter faz a soma do total dos itens da lista -->
                         <Label
-                            Text="R$ 55,00"
+                            Text="{Binding ., Converter={StaticResource TextTotalPriceItensInCarConverter}}"
                             Grid.Column="2"
                             VerticalOptions="Center"/>
                         <components:HorizontalLine                            
@@ -70,7 +79,8 @@
                             <Button
                                 ImageSource="share.png"
                                 Text="Compartilhar"
-                                Style="{StaticResource ButtonBorderless}"/>
+                                Style="{StaticResource ButtonBorderless}"
+                                Command="{Binding OpenPopupSharePageCommand, Source={x:Reference vm}}" />
                             <Button
                                 ImageSource="delete.png"
                                 Text="Excluir"

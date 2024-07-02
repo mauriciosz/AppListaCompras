@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mopups:PopupPage 
+            xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            x:Class="AppListaCompras.Views.Popups.ListToBuySharePage"
+            xmlns:mopups="clr-namespace:Mopups.Pages;assembly=Mopups"
+            xmlns:vm="clr-namespace:AppListaCompras.ViewModels.Popups"
+            Title="ListToBuySharePage"
+            BackgroundColor="#AA000000" >
+    <!-- Sinceramente não compreendi muito bem isso aqui.. -->
+    <!-- Vi que precisa disso para usar como comando no button para fechar a tela, mas... ainda um pouco perdido -->
+    <mopups:PopupPage.BindingContext>
+        <vm:ListToBuySharePageViewModel />
+    </mopups:PopupPage.BindingContext>
+    <Border 
+        Padding="15" 
+        WidthRequest="320"
+        HeightRequest="360"
+        BackgroundColor="White"
+        StrokeShape="RoundRectangle 12"
+        StrokeThickness="0">
+        <VerticalStackLayout Spacing="10">
+            <Label 
+                Text="Compartilhar!"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" />
+            <Button
+                Text="X"
+                HorizontalOptions="End"
+                Command="{Binding CloseCommand}"/>
+            <Entry 
+                Placeholder="E-mail"/>
+            <Button
+                Text="Adicionar"/>
+        </VerticalStackLayout>
+    </Border>
+</mopups:PopupPage>

@@ -13,5 +13,6 @@ namespace AppListaCompras.Models
         public decimal Quantity { get; set; }
         public string QuantityUnitMeasure { get; set; } // trocar para tipo enumerado...
         public decimal Price { get; set; }
+        public bool HasCaugth { get; set; } = false; // verifica se o produto da lista já foi pego por algum usuário...
     }
 }
