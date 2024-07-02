@@ -39,7 +39,7 @@ namespace AppListaCompras.ViewModels
                 },
                 new ListToBuy()
                 {
-                    Name = "Minha Lista",
+                    Name = "Minha Lista 2",
                     Users = new List<User>()
                     {
                         new User { Name = "Mauricio Zaccaro", Email = "neto.mauricio@unemat.br" },
@@ -60,6 +60,18 @@ namespace AppListaCompras.ViewModels
         {
             MopupService.Instance.PushAsync(new ListToBuySharePage(listSelected));
         }
+
+        [RelayCommand]
+        private void OpenListOfItensPage(ListToBuy listSelected)
+        {
+            // Cria um dicionário com chave "ListToBuy" e passa no valor a lista selecionada
+            var pageParameter = new Dictionary<string, object>
+            {
+                { "ListToBuy", listSelected}
+            };
+            Shell.Current.GoToAsync("//ListToBuy/ListOfItens", pageParameter);
+        }
+
 
     }
 }

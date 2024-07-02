@@ -19,13 +19,9 @@
         RowDefinitions="75, *">
 
         <StackLayout Padding="10" Orientation="Horizontal">
-            <ImageButton 
-                Source="back.png" 
-                HeightRequest="37" />
             <Entry 
                 Placeholder="Pesquisar" 
-                HorizontalOptions="FillAndExpand" 
-                Margin="15, 0, 0, 0" />
+                HorizontalOptions="FillAndExpand"  />
         </StackLayout>
         <CollectionView 
             Grid.Row="1" 
@@ -37,61 +33,58 @@
             </CollectionView.Header>
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Grid
-                        ColumnDefinitions="90, *, 80"
-                        RowDefinitions="Auto, 1, 30, 1">
-                        <Image 
-                            Source="my_list.png"
-                            Margin="15, 10, 0, 10"/>
-                        <VerticalStackLayout
-                            Grid.Column="1"
-                            Margin="10, 0, 0, 0"
-                            VerticalOptions="Center">
-                            <Label
-                                Text="{Binding Name}"
-                                Style="{StaticResource Paragraph}"/>
-                            <HorizontalStackLayout>
+                    <VerticalStackLayout>
+                        <Grid ColumnDefinitions="90, *, 80" RowDefinitions="Auto" >
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding OpenListOfItensPageCommand, Source={x:Reference vm}}" CommandParameter="{Binding .}" />
+                            </Grid.GestureRecognizers>
+                            <Image 
+                                Source="my_list.png"
+                                Margin="15, 10, 0, 10"/>
+                            <VerticalStackLayout
+                                Grid.Column="1"
+                                Margin="10, 0, 0, 0"
+                                VerticalOptions="Center">
                                 <Label
-                                    Text="{Binding Products.Count}"
-                                    Style="{StaticResource SmallText}"/>
-                                <Label
-                                    Text=" itens " 
-                                    Style="{StaticResource SmallText}"/>
-                                <Label
-                                    Text="{Binding Users.Count, Converter={StaticResource TextSharedListConverter}}"
+                                    Text="{Binding Name}"
+                                    Style="{StaticResource Paragraph}"/>
+                                <HorizontalStackLayout>
+                                    <Label
+                                        Text="{Binding Products.Count}"
+                                        Style="{StaticResource SmallText}"/>
+                                    <Label
+                                        Text=" itens " 
+                                        Style="{StaticResource SmallText}"/>
+                                    <Label
+                                        Text="{Binding Users.Count, Converter={StaticResource TextSharedListConverter}}"
                                     
-                                    Style="{StaticResource SmallTextEmphasis}"/>
-                            </HorizontalStackLayout>
-                        </VerticalStackLayout>
-                        <!-- O 'Binding .' passa a lista toda para o item e o Converter faz a soma do total dos itens da lista -->
-                        <Label
-                            Text="{Binding ., Converter={StaticResource TextTotalPriceItensInCarConverter}}"
-                            Grid.Column="2"
-                            VerticalOptions="Center"/>
-                        <components:HorizontalLine                            
-                            Stroke="LightGrey"
-                            Grid.Row="1"
-                            Grid.ColumnSpan="3"/>
-                        <HorizontalStackLayout 
-                            Grid.Row="2"
-                            Grid.ColumnSpan="3"
-                            BackgroundColor="AliceBlue">
+                                        Style="{StaticResource SmallTextEmphasis}"/>
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                            <!-- O 'Binding .' passa a lista toda para o item e o Converter faz a soma do total dos itens da lista -->
+                            <Label
+                                Text="{Binding ., Converter={StaticResource TextTotalPriceItensInCarConverter}}"
+                                Grid.Column="2"
+                                VerticalOptions="Center"/>
+                        </Grid>
+
+                        <components:HorizontalLine Stroke="LightGrey"/>
+                        
+                        <HorizontalStackLayout BackgroundColor="AliceBlue">
                             <Button
-                                ImageSource="share.png"
-                                Text="Compartilhar"
-                                Style="{StaticResource ButtonBorderless}"
-                                Command="{Binding OpenPopupSharePageCommand, Source={x:Reference vm}}" 
-                                CommandParameter="{Binding .}"/>
+                                    ImageSource="share.png"
+                                    Text="Compartilhar"
+                                    Style="{StaticResource ButtonBorderless}"
+                                    Command="{Binding OpenPopupSharePageCommand, Source={x:Reference vm}}" 
+                                    CommandParameter="{Binding .}"/>
                             <Button
-                                ImageSource="delete.png"
-                                Text="Excluir"
-                                Style="{StaticResource ButtonBorderless}"/>
+                                    ImageSource="delete.png"
+                                    Text="Excluir"
+                                    Style="{StaticResource ButtonBorderless}"/>
                         </HorizontalStackLayout>
-                        <components:HorizontalLine
-                            Stroke="Grey"
-                            Grid.Row="3"
-                            Grid.ColumnSpan="3"/>
-                    </Grid>
+                        
+                        <components:HorizontalLine Stroke="Grey"/>
+                    </VerticalStackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
             <CollectionView.EmptyView>
