@@ -8,7 +8,7 @@ namespace AppListaCompras.Models.Enums
 {
     public enum UnitMeasure
     {
-        Un,
-        Kg
+        Un = 1,
+        Kg = 2
     }
 }

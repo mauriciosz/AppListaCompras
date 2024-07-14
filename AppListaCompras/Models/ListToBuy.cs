@@ -1,4 +1,7 @@
-﻿using System;
+﻿
+using MongoDB.Bson;
+using Realms;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,12 +9,22 @@ using System.Threading.Tasks;
 
 namespace AppListaCompras.Models
 {
-    public class ListToBuy
+    public partial class ListToBuy : IRealmObject
     {
-        public int Id { get; set; }
+        [PrimaryKey]
+        [MapTo("_id")]
+        public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
+
+        [MapTo("name")]
         public string Name { get; set; }
-        public List<Product> Products { get; set; } = new List<Product>();
-        public List<User> Users { get; set; } = new List<User>(); 
+
+        [MapTo("products")]
+        public IList<Product> Products { get; }
+
+        [MapTo("users")]
+        public IList<User> Users { get; }
+
+        [MapTo("create_at")]
         public DateTimeOffset CreateAt { get; set; } 
     }
 }

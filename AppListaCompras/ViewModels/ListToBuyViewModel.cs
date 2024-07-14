@@ -1,4 +1,5 @@
-﻿using AppListaCompras.Models;
+﻿using AppListaCompras.Libraries.Services;
+using AppListaCompras.Models;
 using AppListaCompras.Models.Enums;
 using AppListaCompras.Views.Popups;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -20,7 +21,7 @@ namespace AppListaCompras.ViewModels
 
         public ListToBuyViewModel()
         {
-            ListToBuy = new ObservableCollection<ListToBuy>()
+          /*  ListToBuy = new ObservableCollection<ListToBuy>()
             {
                 new ListToBuy()
                 {
@@ -47,14 +48,21 @@ namespace AppListaCompras.ViewModels
                     },
                     Products = new List<Product>()
                     {
-                        new Product { Name = "Arroz 5kg", Quantity = 3, QuantityUnitMeasure = UnitMeasure.Un, Price = 25.90m, HasCaugth = false } /*
+                        new Product { Name = "Arroz 5kg", Quantity = 3, QuantityUnitMeasure = UnitMeasure.Un, Price = 25.90m, HasCaugth = false } 
                         new Product { Name = "Feijão 1kg", Quantity = 1, QuantityUnitMeasure = UnitMeasure.Un, Price = 8.49m, HasCaugth = true },
                         new Product { Name = "Carne - Patinho", Quantity = 1.5m, QuantityUnitMeasure = UnitMeasure.Kg, Price = 32.97m, HasCaugth = true },
                         new Product { Name = "Leite", Quantity = 12, QuantityUnitMeasure = UnitMeasure.Un, Price = 5.99m, HasCaugth = false },
-                        new Product { Name = "Cebola Roxa", Quantity = 1.35m, QuantityUnitMeasure = UnitMeasure.Kg, Price = 2.32m, HasCaugth = false } */
+                        new Product { Name = "Cebola Roxa", Quantity = 1.35m, QuantityUnitMeasure = UnitMeasure.Kg, Price = 2.32m, HasCaugth = false } 
                     }
                 }
-            };
+            }; */
+        }
+
+        [RelayCommand]
+        private async Task OnAppearing()
+        {
+            await MongoDBAtlasService.Init();
+            await MongoDBAtlasService.LoginAsync();
         }
 
         [RelayCommand]

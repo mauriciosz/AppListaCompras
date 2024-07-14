@@ -1,0 +1,9 @@
+{
+    "appId": "application-0-wyypirj",
+    "appUrl": "https://services.cloud.mongodb.com/groups/6693c1edcc3b19157b5cb926/apps/6693cc1e4542c7f0d792ad6b",
+    "baseUrl": "https://services.cloud.mongodb.com",
+    "clientApiBaseUrl": "https://us-east4.gcp.services.cloud.mongodb.com",
+    "dataApiBaseUrl": "https://us-east4.gcp.data.mongodb-api.com",
+    "dataExplorerLink": "https://cloud.mongodb.com/links/6693c1edcc3b19157b5cb926/explorer/Cluster0/database/collection/find",
+    "dataSourceName": "mongodb-atlas"
+}
