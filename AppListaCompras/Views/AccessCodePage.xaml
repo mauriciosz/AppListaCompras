@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="AppListaCompras.Views.AccessCodePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:AppListaCompras.ViewModels"
+    Title="AccessCodePage">
+    <ContentPage.BindingContext>
+        <vm:AccessCodePageViewModel />
+    </ContentPage.BindingContext>
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="20">
+            <Image
+                HeightRequest="{OnPlatform Default=330,
+                                           Android=290}"
+                SemanticProperties.Description="Imagem de Envelope de E-mail"
+                Source="image_mail.png" />
+            <Label
+                HorizontalTextAlignment="Center"
+                SemanticProperties.HeadingLevel="Level1"
+                Style="{StaticResource Headline}"
+                Text="Acesso"
+                VerticalOptions="EndAndExpand" />
+            <Label
+                HorizontalTextAlignment="Center"
+                SemanticProperties.HeadingLevel="Level2"
+                Style="{StaticResource SubHeadline}"
+                Text="Enviamos um código para o seu e-mail, &#10;informe ele abaixo" />
+            <Entry
+                Placeholder="Digite o código de acesso"
+                Text="{Binding User.AccessCodeTemp}"
+                VerticalOptions="EndAndExpand" />
+            <Button
+                Command="{Binding }"
+                SemanticProperties.Description="Acessa a próxima tela do App, para informar o Código de Acesso enviado para o seu e-mail"
+                SemanticProperties.Hint="Salvar"
+                Text="Confirmar" />
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

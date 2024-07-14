@@ -12,15 +12,16 @@ namespace AppListaCompras.Libraries.Converters
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            ListToBuy? listToBuy = value as ListToBuy;
-            if (listToBuy == null)
+            List<Product>? listProducts = value as List<Product>;
+
+            if (listProducts == null)
                 return "R$ 0,00";
 
-            if (listToBuy.Products.Count == 0)
+            if (listProducts.Count == 0)
                 return "R$ 0,00";
 
             decimal totalPrice = 0;
-            foreach (var product in listToBuy.Products)
+            foreach (var product in listProducts)
             {
                 if (product.HasCaugth)
                 {
