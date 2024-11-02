@@ -12,7 +12,7 @@ namespace AppListaCompras.Libraries.Converters
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            List<Product> listProducts = (List<Product>)value!;
+            IList<Product> listProducts = (IList<Product>)value!;
 
             int CaugthProducts = listProducts.Where(a => a.HasCaugth == true).Count();
             return (CaugthProducts > 1) ? $"{CaugthProducts} Itens" : $"{CaugthProducts} Item";

@@ -12,7 +12,7 @@ namespace AppListaCompras.Libraries.Converters
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            List<Product>? listProducts = value as List<Product>;
+            IList<Product>? listProducts = value as IList<Product>;
 
             if (listProducts == null)
                 return "R$ 0,00";

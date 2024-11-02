@@ -15,7 +15,7 @@ namespace AppListaCompras.Models
     {
         [PrimaryKey]
         [MapTo("_id")]
-        public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
+        public ObjectId Id { get; set; }
 
         [MapTo("name")]
         public string Name { get; set; } = string.Empty;
@@ -24,19 +24,13 @@ namespace AppListaCompras.Models
         public decimal Quantity { get; set; }
 
         [MapTo("quantity_unit_measure")]
-        public int QuantityUnitMeasure { get; set; } // retornada um enum, foi trocado para int
+        public string QuantityUnitMeasure { get; set; } = (string)Enum.GetName(UnitMeasure.Un)!;
 
         [MapTo("price")]
         public decimal Price { get; set; }
 
-        private bool hasCaugth = false; // verifica se o produto da lista já foi pego por algum usuário...
-
         [MapTo("has_caugth")]
-        public bool HasCaugth
-        {
-            get { return hasCaugth; }
-            set { hasCaugth = value; OnPropertyChanged(nameof(HasCaugth)); }
-        }
+        public bool HasCaugth { get; set; }
 
         [MapTo("create_at")]
         public DateTimeOffset CreateAt { get; set; }

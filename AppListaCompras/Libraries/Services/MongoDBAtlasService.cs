@@ -4,6 +4,7 @@
  */
 
 using System.Text.Json;
+using AppListaCompras.Models;
 using Realms;
 using Realms.Sync;
 
@@ -17,7 +18,7 @@ namespace AppListaCompras.Libraries.Services
 
         private static Realm mainThreadRealm;
 
-        public static User CurrentUser => app.CurrentUser; 
+        public static Realms.Sync.User CurrentUser => app.CurrentUser; 
 
         public static string DataExplorerLink;
 
@@ -59,16 +60,15 @@ namespace AppListaCompras.Libraries.Services
 
         public static Realm GetRealm()
         {
-            var config = new FlexibleSyncConfiguration(app.CurrentUser)
-            {
-                PopulateInitialSubscriptions = (realm) =>
-                {
-                    //var (query, queryName) = GetQueryForSubscriptionType(realm, SubscriptionType.Mine);
-                    //realm.Subscriptions.Add(query, new SubscriptionOptions { Name = queryName });
-                }
-            };
+            var config = new FlexibleSyncConfiguration(app.CurrentUser!);
 
-            return Realm.GetInstance(config);
+            var realm = Realm.GetInstance(config);
+
+            realm.All<ListToBuy>().SubscribeAsync();
+            realm.All<Product>().SubscribeAsync();
+            realm.All<Models.User>().SubscribeAsync();
+
+            return realm;
         }
 
         public static async Task RegisterAsync(string email, string password)
@@ -87,7 +87,7 @@ namespace AppListaCompras.Libraries.Services
 
         public static async Task LoginAsync()
         { 
-            User user = CurrentUser;
+            Realms.Sync.User user = CurrentUser;
             if (CurrentUser == null) // Se não tiver usuário na memória, ele faz um login anônimo...           
                 user = await app.LogInAsync(Credentials.Anonymous()); // retorna um User
 

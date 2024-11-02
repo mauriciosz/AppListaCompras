@@ -13,11 +13,11 @@
     </mopups:PopupPage.BindingContext>
     <Border
         BackgroundColor="White"
-        HeightRequest="320"
+        HeightRequest="400"
         StrokeShape="RoundRectangle 12"
         StrokeThickness="0"
-        WidthRequest="320">
-        <VerticalStackLayout Padding="15,0" Spacing="20">
+        WidthRequest="330">
+        <VerticalStackLayout Padding="15,0" Spacing="20">           
             <StackLayout Orientation="Horizontal">
                 <Label
                     Margin="20,0,0,0"
@@ -30,18 +30,45 @@
                     HorizontalOptions="End"
                     Source="close.png" />
             </StackLayout>
-            <Entry Placeholder="Descrição" Text="{Binding Product.Name}" />
-            <StackLayout Orientation="Horizontal" Spacing="10">
-                <Entry
-                    HorizontalOptions="FillAndExpand"
-                    Placeholder="Quantidade"
-                    Text="{Binding Product.Quantity}" />
-                <Picker
-                    HorizontalOptions="FillAndExpand"
-                    ItemsSource="{Binding UnitsMeasure}"
-                    SelectedItem="{Binding Product.QuantityUnitMeasure}" />
+            
+            <StackLayout Orientation="Vertical">
+                <Label Text="Descrição do Produto" FontAttributes="Bold"  />
+                <Entry Placeholder="Descrição" Text="{Binding ProductForm.Name}"  />
             </StackLayout>
-            <Entry Placeholder="Preço" Text="{Binding Product.Price}" />
+            
+            <StackLayout Orientation="Horizontal" Spacing="10">
+                <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand">
+                    <Label Text="Quantidade" FontAttributes="Bold" />
+                    <Entry
+                        Placeholder="Quantidade"
+                        Text="{Binding ProductForm.Quantity}" />
+                </StackLayout>
+
+                <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand">
+                    <Label Text="Unid. de Medida" FontAttributes="Bold" />
+                    <Picker
+                        ItemsSource="{Binding UnitsMeasure}"
+                        SelectedItem="{Binding ProductForm.QuantityUnitMeasure}" />
+                </StackLayout>
+            </StackLayout>
+            
+            <StackLayout Orientation="Horizontal" Spacing="10">
+                <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand">
+                    <Label Text="Selecionado" FontAttributes="Bold"/>
+                    <Switch Grid.Column="0"
+                            HorizontalOptions="Start"
+                            IsToggled="{Binding ProductForm.HasCaugth}"/>
+                </StackLayout>
+
+                <StackLayout Grid.Column="1" Orientation="Vertical" HorizontalOptions="FillAndExpand">
+                    <Label Text="Preço R$" FontAttributes="Bold" />
+                    <Entry 
+                        Placeholder="Preço" 
+                        Text="{Binding ProductForm.Price}"
+                        HorizontalOptions="FillAndExpand"/>
+                </StackLayout>
+            </StackLayout>
+            
             <Button Command="{Binding SaveCommand}" Text="Salvar" />
         </VerticalStackLayout>
     </Border>

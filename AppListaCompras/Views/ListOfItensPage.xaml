@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:components="clr-namespace:AppListaCompras.Libraries.Components"
-             xmlns:converters="clr-namespace:AppListaCompras.Libraries.Converters"
-             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"             
-             xmlns:vm="clr-namespace:AppListaCompras.ViewModels"
-             x:Class="AppListaCompras.Views.ListOfItensPage"
-             Title="ListOfItensPage">
+<ContentPage
+    x:Class="AppListaCompras.Views.ListOfItensPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:components="clr-namespace:AppListaCompras.Libraries.Components"
+    xmlns:converters="clr-namespace:AppListaCompras.Libraries.Converters"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:vm="clr-namespace:AppListaCompras.ViewModels"
+    Title="ListOfItensPage">
     <ContentPage.BindingContext>
         <vm:ListOfItensPageViewModel x:Name="vm" />
     </ContentPage.BindingContext>
@@ -21,86 +22,92 @@
             <converters:TextItensAdicionadosNaLista x:Key="TextItensAdicionadosNaLista" />
         </ResourceDictionary>
     </ContentPage.Resources>
-    
-    <Grid
-       RowDefinitions="75, 50, *, 1, 90">
+
+    <Grid RowDefinitions="75, 50, *, 1, 90">
         <StackLayout Padding="10" Orientation="Horizontal">
-            <ImageButton 
-               Source="back.png" 
-               HeightRequest="37" 
-               Command="{Binding BackPageCommand}" />
-            <Entry 
-               Text="{Binding ListToBuy.Name}"
-               Placeholder="Pesquisar" 
-               HorizontalOptions="FillAndExpand" 
-               Margin="15, 0, 0, 0" />
+            <ImageButton
+                Command="{Binding BackPageCommand}"
+                HeightRequest="37"
+                Source="back.png" />
+            <Entry
+                Margin="15,0,0,0"
+                HorizontalOptions="FillAndExpand"
+                Placeholder="Nome da Lista"
+                Text="{Binding ListToBuy.Name}">
+                <Entry.Behaviors>
+                    <toolkit:EventToCommandBehavior Command="{Binding SaveListToBuyCommand}" EventName="Unfocused" />
+                </Entry.Behaviors>
+            </Entry>
         </StackLayout>
         <Label
-            Text="ITENS" 
             Grid.Row="1"
-            VerticalOptions="Center"
-            HorizontalOptions="Center" 
-            Style="{StaticResource  Headline}"/>
-        <CollectionView 
-           Grid.Row="2" 
-           ItemsSource="{Binding ListToBuy.Products}">
+            HorizontalOptions="Center"
+            Style="{StaticResource Headline}"
+            Text="ITENS"
+            VerticalOptions="Center" />
+        <CollectionView Grid.Row="2" ItemsSource="{Binding ListToBuy.Products}">
             <CollectionView.Header>
-                <components:HorizontalLine
-                           Stroke="Grey"
-                           Grid.ColumnSpan="3"/>
+                <components:HorizontalLine Grid.ColumnSpan="3" Stroke="Grey" />
             </CollectionView.Header>
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Grid
-                       ColumnDefinitions="40, *, 110"
-                       RowDefinitions="Auto, 1">
-                        <CheckBox IsChecked="{Binding HasCaugth}" HorizontalOptions="Center" Margin="10, 0, 0, 0" >
+                    <Grid ColumnDefinitions="40, *, 110" RowDefinitions="Auto, 1">
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding PopupEditNewItemPageCommand, Source={x:Reference vm}}" CommandParameter="{Binding .}" />
+                        </Grid.GestureRecognizers>
+                        <FlyoutBase.ContextFlyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem
+                                    Command="{Binding ExcluirProdutoListCommand, Source={x:Reference vm}}"
+                                    CommandParameter="{Binding .}"
+                                    Text="Excluir" />
+                            </MenuFlyout>
+                        </FlyoutBase.ContextFlyout>
+                        <CheckBox
+                            Margin="10,0,0,0"
+                            HorizontalOptions="Center"
+                            IsChecked="{Binding HasCaugth}">
                             <CheckBox.Behaviors>
-                                <toolkit:EventToCommandBehavior
-                                        EventName="CheckedChanged" 
-                                        Command="{Binding UpdateListoToBuyCommand, Source={x:Reference vm}}" />
+                                <toolkit:EventToCommandBehavior 
+                                    Command="{Binding UpdateListoToBuyCommand, Source={x:Reference vm}}" 
+                                    EventName="CheckedChanged"
+                                    CommandParameter="{Binding .}"/>
                             </CheckBox.Behaviors>
                         </CheckBox>
                         <VerticalStackLayout
-                           Grid.Column="1"
-                           Margin="10, 0, 0, 0"
-                           VerticalOptions="Center">
-                            <Label
-                               Text="{Binding Name}"
-                               Style="{StaticResource Paragraph}"/>
+                            Grid.Column="1"
+                            Margin="10,0,0,0"
+                            VerticalOptions="Center">
+                            <Label Style="{StaticResource Paragraph}" Text="{Binding Name}" />
                             <HorizontalStackLayout>
                                 <Label
-                                   Text="Quantidade: "
-                                   Margin="0, 0, 5, 0"
-                                   Style="{StaticResource SmallText}"/>      
-                                <Label
-                                   Text="{Binding Quantity}"
-                                   Style="{StaticResource SmallText}"/>
-                                <Label
-                                   Text="{Binding QuantityUnitMeasure}" 
-                                   Style="{StaticResource SmallText}" />
+                                    Margin="0,0,5,0"
+                                    Style="{StaticResource SmallText}"
+                                    Text="Quantidade: " />
+                                <Label Style="{StaticResource SmallText}" Text="{Binding Quantity}" />
+                                <Label Style="{StaticResource SmallText}" Text="{Binding QuantityUnitMeasure}" />
                             </HorizontalStackLayout>
                         </VerticalStackLayout>
-                        <!-- O 'Binding .' passa a lista toda para o item e o Converter faz a soma do total dos itens da lista -->
+                        <!--  O 'Binding .' passa a lista toda para o item e o Converter faz a soma do total dos itens da lista  -->
                         <VerticalStackLayout Grid.Column="2" VerticalOptions="Center">
-                            <Label IsVisible="{Binding HasCaugth}" >
+                            <Label IsVisible="{Binding HasCaugth}">
                                 <Label.FormattedText>
                                     <FormattedString>
-                                        <Span Text="{Binding Quantity}" Style="{StaticResource SmallText}"  />
-                                        <Span Text="{Binding QuantityUnitMeasure}" Style="{StaticResource SmallText}"  />
-                                        <Span Text=" x " Style="{StaticResource SmallText}" />
-                                        <Span Text="{Binding Price, StringFormat='{0:C}'}" Style="{StaticResource SmallText}" />
+                                        <Span Style="{StaticResource SmallText}" Text="{Binding Quantity}" />
+                                        <Span Style="{StaticResource SmallText}" Text="{Binding QuantityUnitMeasure}" />
+                                        <Span Style="{StaticResource SmallText}" Text=" x " />
+                                        <Span Style="{StaticResource SmallText}" Text="{Binding Price, StringFormat='{0:C}'}" />
                                     </FormattedString>
                                 </Label.FormattedText>
                             </Label>
-                            <!-- Aqui Mauricio -->
-                            <Label 
-                               Style="{StaticResource SubHeadline}" 
-                               TextColor="{Binding HasCaugth, Converter={StaticResource ColorPriceTotalOfIntensInCartConverter}}" 
-                               Margin="0, 0, 10, 0"
-                               HorizontalOptions="Start">
+                            <!--  Aqui Mauricio  -->
+                            <Label
+                                Margin="0,0,10,0"
+                                HorizontalOptions="Start"
+                                Style="{StaticResource SubHeadline}"
+                                TextColor="{Binding HasCaugth, Converter={StaticResource ColorPriceTotalOfIntensInCartConverter}}">
                                 <Label.Text>
-                                    <MultiBinding Converter="{StaticResource MeuPriceTesteConverter}" >
+                                    <MultiBinding Converter="{StaticResource MeuPriceTesteConverter}">
                                         <Binding Path="." />
                                         <Binding Path="HasCaugth" />
                                     </MultiBinding>
@@ -108,63 +115,73 @@
                             </Label>
                         </VerticalStackLayout>
 
-                        <components:HorizontalLine Stroke="Gray" Grid.Row="1" Grid.ColumnSpan="3"/>
+                        <components:HorizontalLine
+                            Grid.Row="1"
+                            Grid.ColumnSpan="3"
+                            Stroke="Gray" />
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
             <CollectionView.EmptyView>
-                <Label 
-                   Text="Nenhum registro encontrado!" />
+                <Label Text="Nenhum registro encontrado!" />
             </CollectionView.EmptyView>
         </CollectionView>
-        <Button            
-           Text="+" 
-           Margin="20"
-           VerticalOptions="End"
-           HorizontalOptions="End"
-           Grid.Row="2"
-           Style="{StaticResource ButtonTransparent}"
-           Command="{Binding PopupAddNewItemPageCommand}" />
-        <components:HorizontalLine Stroke="Gray" Grid.Row="3" Grid.ColumnSpan="3" />
-        <Grid
-            Grid.Row="4"
-            ColumnDefinitions="*, *, *">
-            <VerticalStackLayout Grid.Column="0" VerticalOptions="Center" Margin="10, 0, 0, 0">
-                <Label
-                    Text="Lista (0 itens)">
+        <Button
+            Grid.Row="2"
+            Margin="20"
+            Command="{Binding PopupAddNewItemPageCommand}"
+            HorizontalOptions="End"
+            Style="{StaticResource ButtonTransparent}"
+            Text="+"
+            VerticalOptions="End" />
+        <components:HorizontalLine
+            Grid.Row="3"
+            Grid.ColumnSpan="3"
+            Stroke="Gray" />
+        <Grid Grid.Row="4" ColumnDefinitions="*, *, *">
+            <VerticalStackLayout
+                Grid.Column="0"
+                Margin="10,0,0,0"
+                VerticalOptions="Center">
+                <Label Text="Lista (0 itens)">
                     <Label.FormattedText>
                         <FormattedString>
-                            <Span Text="Lista " Style="{StaticResource Paragraph}" />
-                            <Span Text="(" Style="{StaticResource SmallText}" />
-                            <Span Text="{Binding ListToBuy.Products.Count}" Style="{StaticResource SmallText}" />
-                            <Span Text="{Binding ListToBuy.Products.Count, Converter={StaticResource TextQuantityItemOfListConverter}}" Style="{StaticResource SmallText}" />
-                            <Span Text=")" Style="{StaticResource SmallText}" />
-                        </FormattedString>                        
+                            <Span Style="{StaticResource Paragraph}" Text="Lista " />
+                            <Span Style="{StaticResource SmallText}" Text="(" />
+                            <Span Style="{StaticResource SmallText}" Text="{Binding ListToBuy.Products.Count}" />
+                            <Span Style="{StaticResource SmallText}" Text="{Binding ListToBuy.Products.Count, Converter={StaticResource TextQuantityItemOfListConverter}}" />
+                            <Span Style="{StaticResource SmallText}" Text=")" />
+                        </FormattedString>
                     </Label.FormattedText>
                 </Label>
                 <Label Style="{StaticResource SmallText}" Text="{Binding ListToBuy.Products, Converter={StaticResource TextItensFaltantesNaLista}}" />
             </VerticalStackLayout>
-            
+
             <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
                 <Label
-                    Text="Carrinho"
-                    HorizontalTextAlignment="Center" Style="{StaticResource Paragraph}"/>
+                    HorizontalTextAlignment="Center"
+                    Style="{StaticResource Paragraph}"
+                    Text="Carrinho" />
                 <Label
-                    Text="{Binding ListToBuy.Products, Converter={StaticResource TextItensAdicionadosNaLista}}" 
-                    HorizontalTextAlignment="Center" Style="{StaticResource SmallText}" />
+                    HorizontalTextAlignment="Center"
+                    Style="{StaticResource SmallText}"
+                    Text="{Binding ListToBuy.Products, Converter={StaticResource TextItensAdicionadosNaLista}}" />
             </VerticalStackLayout>
-            
-            <VerticalStackLayout Grid.Column="2" VerticalOptions="Center" Margin="0, 0, 10, 0">
+
+            <VerticalStackLayout
+                Grid.Column="2"
+                Margin="0,0,10,0"
+                VerticalOptions="Center">
                 <Label
-                    Text="Total"
+                    HorizontalOptions="End"
                     Style="{StaticResource SubHeadline}"
-                    HorizontalOptions="End" />
+                    Text="Total" />
                 <Label
-                    Text="{Binding ListToBuy.Products, Converter={StaticResource TextTotalPriceItensInCarConverter}}" 
+                    HorizontalOptions="End"
                     Style="{StaticResource SmallTextEmphasis}"
-                    HorizontalOptions="End"/>
+                    Text="{Binding ListToBuy.Products, Converter={StaticResource TextTotalPriceItensInCarConverter}}" />
             </VerticalStackLayout>
-            
+
         </Grid>
     </Grid>
 </ContentPage>

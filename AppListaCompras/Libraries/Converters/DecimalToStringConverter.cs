@@ -1,5 +1,4 @@
-﻿using AppListaCompras.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -8,15 +7,11 @@ using System.Threading.Tasks;
 
 namespace AppListaCompras.Libraries.Converters
 {
-    public class TextItensFaltantesNaLista : IValueConverter
+    internal class DecimalToStringConverter : IValueConverter
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            IList<Product> listProducts = (IList<Product>)value!;
-
-            int HasCaugthCount = listProducts.Where(a => a.HasCaugth == false).Count();  // SE 'a' (produto) tiver marcado a propriedade HasCount, adiciona na contagem...
-
-            return (HasCaugthCount > 1) ? $"Faltam {HasCaugthCount} itens": $"Falta {HasCaugthCount} item";
+            return (decimal)value == 0 ? string.Empty : value.ToString();
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)

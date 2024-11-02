@@ -17,10 +17,12 @@ namespace AppListaCompras.ViewModels
     public partial class ListToBuyViewModel : ObservableObject
     {
         [ObservableProperty]
-        private ObservableCollection<ListToBuy> _listToBuy;
+        private IQueryable<ListToBuy> _listsOflistToBuy; // listas de 'Lista de Compra'
 
         public ListToBuyViewModel()
         {
+            // Esse código foi comentado prq não tem mais uso. Mas ele era uma forma de criar as Listas de Compras e seus Produtos de forma "mocada"
+            // Mas agora não tem mais utilidade, pois os dados virão diretamente do que estiver cadastrado no MongoDBAtlas (API/Nuvem)
           /*  ListToBuy = new ObservableCollection<ListToBuy>()
             {
                 new ListToBuy()
@@ -63,6 +65,10 @@ namespace AppListaCompras.ViewModels
         {
             await MongoDBAtlasService.Init();
             await MongoDBAtlasService.LoginAsync();
+
+            // TODO .. Carregar os dados
+            var realm = MongoDBAtlasService.GetMainThreadRealm();
+            ListsOflistToBuy = realm.All<ListToBuy>();
         }
 
         [RelayCommand]
@@ -72,7 +78,7 @@ namespace AppListaCompras.ViewModels
         }
 
         [RelayCommand]
-        private void OpenListOfItensPage(ListToBuy listSelected)
+        private void OpenListOfItensToEdit(ListToBuy listSelected)
         {
             // Cria um dicionário com chave "ListToBuy" e passa no valor a lista selecionada
             var pageParameter = new Dictionary<string, object>
@@ -82,11 +88,35 @@ namespace AppListaCompras.ViewModels
             Shell.Current.GoToAsync("//ListToBuy/ListOfItens", pageParameter);
         }
 
-        private void OpenAddListOfItensPage(ListToBuy listSelected)
+        [RelayCommand]
+        private void OpenListOfItensToAdd(ListToBuy listSelected)
         {
             Shell.Current.GoToAsync("//ListToBuy/ListOfItens");
         }
 
+        [RelayCommand]
+        private async Task DeleteListToBuy(ListToBuy listSelected)
+        {
+            var realm = MongoDBAtlasService.GetMainThreadRealm();
+
+            var resposta = await App.Current.MainPage.DisplayAlert("Excluir Lista", $"Tem certeza que deseja excluir a Lista '{listSelected.Name}' ?", "Sim", "Não");
+
+            if (resposta)
+            {
+                var listSelectedCount = listSelected.Products.Count();
+                if (listSelectedCount > 0)
+                {
+                    await App.Current.MainPage.DisplayAlert("Exclusão não permitida!", "Lista possui itens lançados!", "Fechar");
+                }
+                else
+                {
+                    await realm.WriteAsync(() =>
+                    {
+                        realm.Remove(listSelected);
+                    });                    
+                }
+            }
+        }
 
     }
 }

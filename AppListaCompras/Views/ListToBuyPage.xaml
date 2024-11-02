@@ -5,11 +5,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:components="clr-namespace:AppListaCompras.Libraries.Components"
     xmlns:converters="clr-namespace:AppListaCompras.Libraries.Converters"
-    xmlns:vm="clr-namespace:AppListaCompras.ViewModels"
     xmlns:tookit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-    Title="ListToBuyPage" >    
+    xmlns:vm="clr-namespace:AppListaCompras.ViewModels"
+    Title="ListToBuyPage">
     <ContentPage.Behaviors>
-        <tookit:EventToCommandBehavior EventName="Appearing" Command="{Binding AppearingCommand}" />
+        <tookit:EventToCommandBehavior Command="{Binding AppearingCommand}" EventName="Appearing" />
     </ContentPage.Behaviors>
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -25,7 +25,7 @@
         <StackLayout Padding="10" Orientation="Horizontal">
             <Entry HorizontalOptions="FillAndExpand" Placeholder="Pesquisar" />
         </StackLayout>
-        <CollectionView Grid.Row="1" ItemsSource="{Binding ListToBuy}">
+        <CollectionView Grid.Row="1" ItemsSource="{Binding ListsOflistToBuy}">
             <CollectionView.Header>
                 <components:HorizontalLine Grid.ColumnSpan="3" Stroke="Grey" />
             </CollectionView.Header>
@@ -34,7 +34,7 @@
                     <VerticalStackLayout>
                         <Grid ColumnDefinitions="90, *, 80" RowDefinitions="Auto">
                             <Grid.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding OpenListOfItensPageCommand, Source={x:Reference vm}}" CommandParameter="{Binding .}" />
+                                <TapGestureRecognizer Command="{Binding OpenListOfItensToEditCommand, Source={x:Reference vm}}" CommandParameter="{Binding .}" />
                             </Grid.GestureRecognizers>
                             <Image Margin="15,10,0,10" Source="my_list.png" />
                             <VerticalStackLayout
@@ -65,6 +65,8 @@
                                 Style="{StaticResource ButtonBorderless}"
                                 Text="Compartilhar" />
                             <Button
+                                Command="{Binding DeleteListToBuyCommand, Source={x:Reference vm}}"
+                                CommandParameter="{Binding .}"
                                 ImageSource="delete.png"
                                 Style="{StaticResource ButtonBorderless}"
                                 Text="Excluir" />
@@ -81,7 +83,7 @@
         <Button
             Grid.Row="1"
             Margin="20"
-            Command="{Binding OpenAddListOfItensPageCommand}"
+            Command="{Binding OpenListOfItensToAddCommand}"
             HorizontalOptions="End"
             Text="+"
             VerticalOptions="End" />
